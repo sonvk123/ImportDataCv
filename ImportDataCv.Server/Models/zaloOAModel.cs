@@ -10,23 +10,28 @@ namespace apiZaloOa.Models
         public string AccessToken { get; set; }
         public string RefreshToken { get; set; }
     }
-    public class ZaloMessage
+
+    
+
+    public class ZaloMessages
     {
-        [Key]
-        [MaxLength(50)]
-        public string ConversationID { get; set; }  // ID của cuộc trò chuyện
+        public int Id { get; set; }
+        public string OaId { get; set; }
+        public string uId { get; set; }
+        public string uName { get; set; }
 
-        [MaxLength(50)]
-        public string MessageID { get; set; }       // ID của tin nhắn
+    }
+    public class ZaloMessagesUserId
+    {
+        public int Id { get; set; }
+        public string OaId { get; set; }
+        public string uId { get; set; }
+        public string uName { get; set; }
+        public string from_avatar { get; set; }
+        public string message { get; set; }
+        public string message_id { get; set; }
 
-        [MaxLength(50)]
-        public string SenderID { get; set; }        // ID của người gửi
 
-        public string MessageContent { get; set; }  // Nội dung tin nhắn
 
-        public DateTime SentTime { get; set; }      // Thời gian gửi tin nhắn
-
-        [MaxLength(20)]
-        public string Platform { get; set; }        // Nền tảng (Zalo, Messenger)
     }
 }

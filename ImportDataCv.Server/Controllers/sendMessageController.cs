@@ -62,8 +62,8 @@ namespace apiZaloOa.Controllers
 
         }
     
-    // GET: api/sendmessage/messageUserId
-    [HttpGet("messageUserId")]
+        // GET: api/sendmessage/messageUserId
+        [HttpGet("messageUserId")]
         public async Task<IActionResult> messageUserId(string userId)
         {
 

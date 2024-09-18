@@ -82,4 +82,24 @@ export class DataDisplayComponent implements OnInit {
       }
     );
   }
+
+  // Truy xuất danh sách người dùng
+  fetchDataUserLists(): void {
+    const url = `https://localhost:7131/api/SendMessage/messageUserId?userId=${this.inputUserId}`;
+    this.apiService.getUserLists(url).subscribe(
+      response => {
+        if (response) {
+          console.log(response)
+          this.dataMessage = response.res;
+          console.log(this.dataMessage)
+        } else {
+          this.errorMessage = 'No found in the response'; // Xử lý nếu không có 
+        }
+      },
+      error => {
+        console.error('Error fetching data', error);
+        this.errorMessage = 'Error fetching data'; // Thông báo lỗi cho người dùng
+      }
+    );
+  }
 }

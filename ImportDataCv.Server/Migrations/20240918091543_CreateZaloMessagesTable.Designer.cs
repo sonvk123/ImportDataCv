@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using apiZaloOa.Data;
 
@@ -10,9 +11,11 @@ using apiZaloOa.Data;
 namespace ImportDataCv.Server.Migrations
 {
     [DbContext(typeof(apiZaloOaContext))]
-    partial class apiZaloOaContextModelSnapshot : ModelSnapshot
+    [Migration("20240918091543_CreateZaloMessagesTable")]
+    partial class CreateZaloMessagesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

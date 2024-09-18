@@ -12,6 +12,10 @@ export class ApiService {
     return this.http.get(url);
   }
 
+  getUserLists(url: string): Observable<any> {
+    return this.http.get(url);
+  }
+
   getMessages(url: string): Observable<any> {
     return this.http.get(url);
   }

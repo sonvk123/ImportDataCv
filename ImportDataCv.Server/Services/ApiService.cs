@@ -62,7 +62,6 @@ namespace apiZaloOa.Services
                 // Kiểm tra nếu không có accessToken hoặc refreshToken
                 if (string.IsNullOrEmpty(accessToken) || string.IsNullOrEmpty(refreshToken))
                 {
-                    _logger.LogError("Failed to retrieve accessToken or refreshToken.");
                     return "Error: Missing accessToken or refreshToken.";
                 }
 
@@ -77,8 +76,6 @@ namespace apiZaloOa.Services
 
                     // Lưu thay đổi để xóa token cũ
                     await _context.SaveChangesAsync();
-
-                    _logger.LogInformation("Old tokens removed from the database.");
                 }
 
                 // Tạo mô hình token mới
@@ -94,9 +91,6 @@ namespace apiZaloOa.Services
                 // Lưu thay đổi vào cơ sở dữ liệu
                 await _context.SaveChangesAsync();
 
-                _logger.LogInformation("accessToken: {AccessToken}", accessToken);
-                _logger.LogInformation("refreshToken: {RefreshToken}", refreshToken);
-
                 // Trả về accessToken
                 return accessToken;
 
@@ -110,13 +104,14 @@ namespace apiZaloOa.Services
                 return $"An error occurred: {ex.Message}";
             }
         }
+
         public async Task<string> getMessages()
         {
             var token = await _context.zaloOaTokenModel.FirstOrDefaultAsync();
             string accessToken = token.AccessToken;
 
             // URL của API
-            string url = "https://openapi.zalo.me/v2.0/oa/listrecentchat?data={\"offset\":0,\"count\":5}";
+            string url = "https://openapi.zalo.me/v2.0/oa/listrecentchat?data={\"offset\":0,\"count\":10}";
 
             // Tạo đối tượng HttpRequestMessage
             var request = new HttpRequestMessage(HttpMethod.Get, url);
@@ -134,8 +129,40 @@ namespace apiZaloOa.Services
             if (response.IsSuccessStatusCode)
             {
                 // Đọc nội dung phản hồi
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
+                string responseBodyString = await response.Content.ReadAsStringAsync();
+                JObject responseBody = JObject.Parse(responseBodyString);
+
+                // Truy cập vào trường 'data' trong JSON
+                JArray data = (JArray)responseBody["data"];
+
+                // Kiểm tra xem cơ sở dữ liệu có ZaloMessage nào không
+                //var existingZaloMessages = await _context.ZaloMessages.ToListAsync();
+
+                Console.WriteLine("data");
+                Console.WriteLine(data);
+
+                foreach (JObject value in data)
+                {
+
+                    string _uId = (string)value["to_id"];
+                    string _OaId = (string)value["from_id"];
+                    string _uName = (string)value["to_display_name"];
+                    //Tạo mô hình ZaloMessage mới
+                    var newexistingZaloMessage = new ZaloMessages
+                    {
+                        OaId = _OaId,
+                        uId = _uId,
+                        uName = _uName
+                    };
+
+                    // Thêm ZaloMessage mới vào cơ sở dữ liệu
+                    _context.ZaloMessages.Add(newexistingZaloMessage);
+
+                    //Lưu thay đổi vào cơ sở dữ liệu
+                    await _context.SaveChangesAsync();
+                }
+
+                return responseBodyString;
             }
             else
             {
@@ -143,13 +170,13 @@ namespace apiZaloOa.Services
                 throw new HttpRequestException($"Request failed with status code {response.StatusCode}");
             }
         }
+
         public async Task<string> messageUserId(string userId)
         {
             var token = await _context.zaloOaTokenModel.FirstOrDefaultAsync();
             string accessToken = token.AccessToken;
 
             // URL của API
-           
             string url = $"https://openapi.zalo.me/v2.0/oa/conversation?data={{\"user_id\":\"{userId}\",\"offset\":0,\"count\":5}}";
 
             // Tạo đối tượng HttpRequestMessage
@@ -167,8 +194,58 @@ namespace apiZaloOa.Services
             if (response.IsSuccessStatusCode)
             {
                 // Đọc nội dung phản hồi
-                string responseBody = await response.Content.ReadAsStringAsync();
-                return responseBody;
+                string responseBodyString = await response.Content.ReadAsStringAsync();
+                JObject responseBody = JObject.Parse(responseBodyString);
+
+                // Truy cập vào trường 'data' trong JSON
+                JArray data = (JArray)responseBody["data"];
+
+                // Kiểm tra xem cơ sở dữ liệu có ZaloMessage nào không
+                //var existingZaloMessages = await _context.ZaloMessages.ToListAsync();
+
+                Console.WriteLine("data");
+                Console.WriteLine(data);
+
+                foreach (JObject value in data)
+                {
+                    Console.WriteLine("value");
+                    Console.WriteLine(value);
+
+                    string _uId = (string)value["to_id"];
+                    string _OaId = (string)value["from_id"];
+                    string _uName = (string)value["to_display_name"];
+                    string _from_avatar = (string)value["from_avatar"];
+                    string _message = (string)value["message"];
+                    string _message_id = (string)value["message_id"];
+
+                    //Tạo mô hình ZaloMessage mới
+                    var newZaloMessageUserId = new ZaloMessagesUserId
+                    {
+                        OaId = _OaId,
+                        uId = _uId,
+                        uName = _uName,
+                        from_avatar = _from_avatar,
+                        message = _message,
+                        message_id = _message_id,
+
+                    };
+
+                    // Thêm ZaloMessage mới vào cơ sở dữ liệu
+                    _context.ZaloMessagesUserId.Add(newZaloMessageUserId);
+
+                    try
+                    {
+                        // Code cập nhật cơ sở dữ liệu
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        Console.WriteLine(ex.InnerException?.Message);  // Xem thông tin chi tiết
+                    }
+
+                }
+
+                return responseBodyString;
             }
             else
             {

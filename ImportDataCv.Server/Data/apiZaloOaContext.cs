@@ -15,5 +15,9 @@ namespace apiZaloOa.Data
         }
 
         public DbSet<zaloOaTokenModel> zaloOaTokenModel { get; set; } = default!;
+        public DbSet<ZaloMessages> ZaloMessages { get; set; } = default!;
+        public DbSet<ZaloMessagesUserId> ZaloMessagesUserId { get; set; } = default!;
+
+
     }
 }
