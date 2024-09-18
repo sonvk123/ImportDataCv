@@ -8,8 +8,12 @@ import { ApiService } from '../api.service';
 })
 export class DataDisplayComponent implements OnInit {
   inputCode: string = '';
+  inputUserId: string = '';
   data: any;
+  dataMessages: any[] = []; // Đảm bảo đây là mảng
+  dataMessage: any;
   code: string | null = null;
+  errorMessage: string = ''; // Thêm biến để lưu thông báo lỗi
 
   constructor(private apiService: ApiService) { }
 
@@ -36,6 +40,45 @@ export class DataDisplayComponent implements OnInit {
       },
       error => {
         console.error('Error fetching data', error);
+      }
+    );
+  }
+
+  fetchDataMessages(): void {
+    const url = `https://localhost:7131/api/SendMessage/getMessages`;
+    this.apiService.getMessages(url).subscribe(
+      response => {
+        if (response) {
+          console.log(response)
+          this.dataMessages = response.data;
+          console.log(response.data)
+
+        } else {
+          this.errorMessage = 'No found in the response'; // Xử lý nếu không có 
+        }
+      },
+      error => {
+        console.error('Error fetching data', error);
+        this.errorMessage = 'Error fetching data'; // Thông báo lỗi cho người dùng
+      }
+    );
+  }
+
+  fetchDataMessageUserId(): void {
+    const url = `https://localhost:7131/api/SendMessage/messageUserId?userId=${this.inputUserId}`;
+    this.apiService.getMessageUserId(url).subscribe(
+      response => {
+        if (response) {
+          console.log(response)
+          this.dataMessage = response.res;
+          console.log(this.dataMessage)
+        } else {
+          this.errorMessage = 'No found in the response'; // Xử lý nếu không có 
+        }
+      },
+      error => {
+        console.error('Error fetching data', error);
+        this.errorMessage = 'Error fetching data'; // Thông báo lỗi cho người dùng
       }
     );
   }

@@ -11,4 +11,12 @@ export class ApiService {
   getAccessToken(url: string): Observable<any> {
     return this.http.get(url);
   }
+
+  getMessages(url: string): Observable<any> {
+    return this.http.get(url);
+  }
+
+  getMessageUserId(url: string): Observable<any> {
+    return this.http.get(url);
+  }
 }

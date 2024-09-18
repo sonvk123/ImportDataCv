@@ -11,3 +11,38 @@
   <h2>Access Token</h2>
   <pre>{{ data | json }}</pre>
 </div>
+
+
+<div>
+  <input id="inputUserId" [(ngModel)]="inputUserId" placeholder="Enter user id" />
+  <button (click)="fetchDataMessageUserId()">Lấy thông tin Tin nhắn trong một hội thoại theo id người nhận</button>
+</div>
+
+<div *ngIf="dataMessage">
+  <h2>Message</h2>
+  <pre>{{ dataMessage | json }}</pre>
+</div>
+
+<div>
+  <button (click)="fetchDataMessages()">Lấy thông tin Tin nhắn gần nhất</button>
+</div>
+
+<div *ngIf="dataMessages">
+  <h2>Thông tin tin nhắn gần nhất</h2>
+  <pre>{{ dataMessages | json }}</pre>
+</div>
+
+<ul>
+  <li *ngFor="let message of dataMessages">
+    <div>
+      <img [src]="message.from_avatar" alt="{{message.from_display_name}}" width="50" height="50">
+      <strong>{{message.from_display_name}}</strong>
+      <span>to</span>
+      <strong>{{message.to_display_name}}</strong>
+    </div>
+    <div>
+      <p>{{message.sent_time}}</p>
+      <p>{{message.message}}</p>
+    </div>
+  </li>
+</ul>

@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using apiZaloOa.Services;
 using apiZaloOa.Models;
+using Azure.Core;
+using System.Net.Http.Headers;
+using apiZaloOa.Data;
+using Microsoft.EntityFrameworkCore;
+using Azure;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace apiZaloOa.Controllers
 {
@@ -9,10 +15,11 @@ namespace apiZaloOa.Controllers
     public class SendMessageController : ControllerBase
     {
         private readonly ApiService _apiService;
-
-        public SendMessageController(ApiService apiService)
+        private readonly apiZaloOaContext _context;
+        public SendMessageController(ApiService apiService, apiZaloOaContext apiZaloOa_Context)
         {
             _apiService = apiService;
+            _context = apiZaloOa_Context;
         }
 
         // GET: api/sendmessage/AccessToken
@@ -44,6 +51,26 @@ namespace apiZaloOa.Controllers
                 // Nếu có lỗi bất ngờ xảy ra, trả về lỗi 500 và thông tin chi tiết
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
+        }
+
+        [HttpGet("getMessages")]
+        public async Task<IActionResult> getMessages()
+        {
+            var responseBody = await _apiService.getMessages();
+            var response = responseBody;
+            return Ok(response);
+
+        }
+    
+    // GET: api/sendmessage/messageUserId
+    [HttpGet("messageUserId")]
+        public async Task<IActionResult> messageUserId(string userId)
+        {
+
+            var responseBody = await _apiService.messageUserId(userId);
+            var response = responseBody;
+            return Ok(response);
+
         }
     }
 }

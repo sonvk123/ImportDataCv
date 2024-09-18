@@ -6,6 +6,7 @@ using apiZaloOa.Models;
 using Microsoft.EntityFrameworkCore;
 using apiZaloOa.Data;
 using Microsoft.Extensions.Logging;
+using System.Net.Http.Headers;
 
 namespace apiZaloOa.Services
 {
@@ -109,5 +110,72 @@ namespace apiZaloOa.Services
                 return $"An error occurred: {ex.Message}";
             }
         }
+        public async Task<string> getMessages()
+        {
+            var token = await _context.zaloOaTokenModel.FirstOrDefaultAsync();
+            string accessToken = token.AccessToken;
+
+            // URL của API
+            string url = "https://openapi.zalo.me/v2.0/oa/listrecentchat?data={\"offset\":0,\"count\":5}";
+
+            // Tạo đối tượng HttpRequestMessage
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            // Thêm header 'access_token'
+            request.Headers.Add("access_token", accessToken);
+
+            // Thêm query string
+            var queryParams = "?data=" + Uri.EscapeDataString("{\"offset\":0,\"count\":5}");
+            request.RequestUri = new Uri(url + queryParams);
+
+            // Gửi yêu cầu và nhận phản hồi
+            HttpResponseMessage response = await _httpClient.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // Đọc nội dung phản hồi
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
+            }
+            else
+            {
+                // Xử lý lỗi nếu có
+                throw new HttpRequestException($"Request failed with status code {response.StatusCode}");
+            }
+        }
+        public async Task<string> messageUserId(string userId)
+        {
+            var token = await _context.zaloOaTokenModel.FirstOrDefaultAsync();
+            string accessToken = token.AccessToken;
+
+            // URL của API
+           
+            string url = $"https://openapi.zalo.me/v2.0/oa/conversation?data={{\"user_id\":\"{userId}\",\"offset\":0,\"count\":5}}";
+
+            // Tạo đối tượng HttpRequestMessage
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+
+            // Thêm header 'access_token'
+            request.Headers.Add("access_token", accessToken);
+
+            // Thêm query string
+            var queryParams = "?data=" + Uri.EscapeDataString("{\"offset\":0,\"count\":5}");
+            request.RequestUri = new Uri(url + queryParams);
+
+            // Gửi yêu cầu và nhận phản hồi
+            HttpResponseMessage response = await _httpClient.SendAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                // Đọc nội dung phản hồi
+                string responseBody = await response.Content.ReadAsStringAsync();
+                return responseBody;
+            }
+            else
+            {
+                // Xử lý lỗi nếu có
+                throw new HttpRequestException($"Request failed with status code {response.StatusCode}");
+            }
+        }
     }
+
 }
