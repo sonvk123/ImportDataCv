@@ -1,0 +1,6 @@
+@ImportDataCv.Server_HostAddress = http://localhost:5179
+
+GET {{ImportDataCv.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,67 @@
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+  vertical-align: middle;
+}
+
+thead th {
+  background-color: #f8f9fa;
+}
+
+tbody tr {
+  background-color: #ffffff;
+}
+
+  tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+
+.badge {
+  margin-right: 5px;
+}
+
+.warning {
+  color: #eb1313;
+}
+
+.cent {
+  text-align: center;
+}
+
+.bg-success {
+  background-color: #28a745;
+  text-align: center;
+  color: white;
+}
+
+.bg-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.formInput{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 50%;
+}
+
+.formInput input{
+  padding: 12px;
+}
+.formInput button{
+  padding: 12px;
+  width: 50%;
+  cursor: pointer;
+}

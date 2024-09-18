@@ -1,0 +1,13 @@
+<div>
+  <button (click)="getCode()">getCode</button>
+</div>
+
+<div>
+  <input id="inputCode" [(ngModel)]="inputCode" placeholder="Enter code" />
+  <button (click)="fetchData()">Fetch Data</button>
+</div>
+
+<div *ngIf="data">
+  <h2>Access Token</h2>
+  <pre>{{ data | json }}</pre>
+</div>
