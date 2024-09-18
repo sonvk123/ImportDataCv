@@ -36,18 +36,6 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getForecasts();
-  }
-
-  getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
-      (result) => {
-        this.forecasts = result;
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
   }
 
   onFileChange(event: any) {
@@ -87,41 +75,6 @@ export class AppComponent implements OnInit {
     reader.readAsBinaryString(file);
 
   }
-
-  //excelDateToJSDate(excelDate: number): Date | null {
-  //  if (!excelDate) return null;
-  //  const jsDate = new Date((excelDate - 25569) * 86400 * 1000);
-  //  return jsDate;
-  //}
-
-  //excelDateToJSDate(excelDate: any): Date | null {
-  //  if (typeof excelDate === 'number') {
-  //    // Xử lý trường hợp dữ liệu là số
-  //    const jsDate = new Date((excelDate - 25569) * 86400 * 1000);
-  //    return jsDate;
-  //  } else if (typeof excelDate === 'string') {
-  //    // Xử lý trường hợp dữ liệu là chuỗi
-  //    const jsDate = new Date(excelDate);
-  //    return isNaN(jsDate.getTime()) ? null : jsDate;
-  //  }
-  //  return null;
-  //}
-
-  //formatDate(date: Date | null): string | null {
-  //  if (!date) return null;
-  //  const day = ('0' + date.getDate()).slice(-2);
-  //  const month = ('0' + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0
-  //  const year = date.getFullYear();
-  //  return `${year}-${month}-${day}`;
-  //}
-
-  //formatDate(date: Date | null): string | null {
-  //  if (!date) return null;
-  //  const day = ('0' + date.getDate()).slice(-2);
-  //  const month = ('0' + (date.getMonth() + 1)).slice(-2); // Tháng bắt đầu từ 0
-  //  const year = date.getFullYear();
-  //  return `${year}-${month}-${day}`;
-  //}
 
   saveToDatabase() {
     this.http.post('https://localhost:7131/api/SmartWord/save', this.dataImportCV).subscribe(
