@@ -5,11 +5,16 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { DataDisplayComponent } from './data-display/data-display.component';
+import { MessengerMessageComponent } from './meta/messenger-message.component';
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    DataDisplayComponent
+    DataDisplayComponent,
+    MessengerMessageComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,57 @@
+:host {
+  max-width: 1280px;
+  padding: 2rem;
+  text-align: center;
+}
+
+th, td {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+table {
+  margin: 0 auto;
+}
+
+/* messenger.component.css */
+.messenger-message {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+.message-detail {
+  margin-bottom: 10px;
+}
+
+strong {
+  color: #555;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  overflow: hidden; /* Ẩn nội dung tràn */
+  white-space: nowrap; /* Ngăn ngắt dòng */
+  text-overflow: ellipsis; /* Hiển thị dấu ba chấm nếu nội dung tràn */
+}
+
+.scrollable-cell {
+  max-width: 200px; /* Chiều rộng tối đa cho ô tin nhắn */
+  overflow: auto; /* Cho phép cuộn nếu nội dung quá dài */
+}

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using System;
+using ImportDataCv.Server;
 
 namespace ImportDataCv.Server
 {
@@ -38,7 +39,10 @@ namespace ImportDataCv.Server
             });
 
             // Đăng ký ApiService
-            builder.Services.AddScoped<ApiService>();
+            builder.Services.AddScoped<ApiZaloService>();
+            builder.Services.AddScoped<ApiTeleService>();
+            builder.Services.AddScoped<ApiMetaService>();
+
 
             builder.Services.AddHttpClient();
 

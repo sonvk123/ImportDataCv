@@ -12,11 +12,11 @@ namespace apiZaloOa.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class SendMessageController : ControllerBase
+    public class zaloController : ControllerBase
     {
-        private readonly ApiService _apiService;
+        private readonly ApiZaloService _apiService;
         private readonly apiZaloOaContext _context;
-        public SendMessageController(ApiService apiService, apiZaloOaContext apiZaloOa_Context)
+        public zaloController(ApiZaloService apiService, apiZaloOaContext apiZaloOa_Context)
         {
             _apiService = apiService;
             _context = apiZaloOa_Context;
@@ -53,6 +53,13 @@ namespace apiZaloOa.Controllers
             }
         }
 
+        [HttpGet("conversations")]
+        public async Task<IActionResult> getcConversations()
+        {
+            var responseBody = await _apiService.getMessages();
+            var response = responseBody;
+            return Ok(response);
+        }
         [HttpGet("getMessages")]
         public async Task<IActionResult> getMessages()
         {

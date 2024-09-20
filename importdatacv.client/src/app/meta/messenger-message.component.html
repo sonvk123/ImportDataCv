@@ -1,0 +1,87 @@
+<h1>Facebook OAuth Example</h1>
+<p>Click the button below to login with Facebook:</p>
+<button (click)="redirectToFacebookOAuth()">Login with Facebook</button>
+<button (click)="genTokenPage()">Token Page</button>
+<button (click)="saveTokensToDb()">Save Token to DB</button>
+
+<!-- messenger.component.html -->
+<div class="messenger-message">
+  <h2>Messenger Message Details</h2>
+  <!-- Display message details here -->
+  <!-- Button to save the message -->
+  <button (click)="onSaveMessages()">Save Message</button>
+</div>
+
+<h1>Redirect Component</h1>
+<p *ngIf="oauthCode">OAuth Code: {{ oauthCode }}</p>
+<p *ngIf="!oauthCode">No OAuth Code found.</p>
+<div>
+  <div *ngIf="accessToken">
+    <h3>Access Token User:</h3>
+    <p>{{ accessToken }}</p>
+  </div>
+</div>
+
+<div *ngIf="pageToken">
+  <h3>Access Token page:</h3>
+  <p>{{ pageToken }}</p>
+</div>
+
+<h3>Danh sách tin nhắn</h3>
+<div>
+  <button (click)="getConversations()">Lấy danh sách tin nhắn</button>
+  <table *ngIf="conversations.length > 0">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Link</th>
+        <th>Thời gian cập nhật</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let conversation of conversations">
+        <td>{{ conversation.id }}</td>
+        <td><a [href]="conversation.link" target="_blank">Xem tin nhắn</a></td>
+        <td>{{ conversation.updated_time | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<h3>Danh sách tin nhắn trong cuộc trò chuyện</h3>
+<div>
+  <input id="conversationId" [(ngModel)]="inputConversationId" placeholder="Enter Conversation Id" />
+  <button (click)="getConversationId()">Lấy danh sách tin nhắn</button>
+  <div *ngIf="messages.length > 0">
+    <button (click)="saveMessages()">Lưu danh sách tin nhắn</button>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Created Time</th>
+          <th>From User Name</th>
+          <th>From ID</th>
+          <th>To User Name</th>
+          <th>To ID</th>
+          <th>Message</th>
+          <!--<th>From Email</th>-->
+          <!--<th>To Email</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let message of messages">
+          <td class="scrollable-cell">{{ message.Id }}</td>
+          <td>{{ message.CreatedTime }}</td>
+          <td>{{ message.FromUserName }}</td>
+          <td>{{ message.FromId }}</td>
+          <td>{{ message.ToUserName }}</td>
+          <td>{{ message.ToId }}</td>
+          <td class="scrollable-cell">{{ message.Message }}</td>
+          <!--<td>{{ message.FromEmail }}</td>-->
+          <!--<td>{{ message.ToEmail }}</td>-->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

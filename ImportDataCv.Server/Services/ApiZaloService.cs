@@ -10,13 +10,13 @@ using System.Net.Http.Headers;
 
 namespace apiZaloOa.Services
 {
-    public class ApiService
+    public class ApiZaloService
     {
         private readonly HttpClient _httpClient;
         private readonly apiZaloOaContext _context;
-        private readonly ILogger<ApiService> _logger;
+        private readonly ILogger<ApiZaloService> _logger;
 
-        public ApiService(HttpClient httpClient, apiZaloOaContext context, ILogger<ApiService> logger)
+        public ApiZaloService(HttpClient httpClient, apiZaloOaContext context, ILogger<ApiZaloService> logger)
         {
             _httpClient = httpClient;
             _context = context;
@@ -203,8 +203,6 @@ namespace apiZaloOa.Services
                 // Kiểm tra xem cơ sở dữ liệu có ZaloMessage nào không
                 //var existingZaloMessages = await _context.ZaloMessages.ToListAsync();
 
-                Console.WriteLine("data");
-                Console.WriteLine(data);
 
                 foreach (JObject value in data)
                 {
